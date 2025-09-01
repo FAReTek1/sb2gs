@@ -4,6 +4,7 @@ import contextlib
 import functools
 import itertools
 import json
+import logging
 import re
 
 WHITESPACE_RE = re.compile(r"[\s.\-]+")
@@ -125,7 +126,7 @@ def identifier(og: str) -> str:
         i += 1
 
     identifier_map[og] = new_iden
-    print(f"Mapped identifier {og!r} -> {new_iden!r}")
+    logging.info(f"Mapped identifier {og!r} -> {new_iden!r}")
 
     return new_iden
 
