@@ -121,11 +121,11 @@ def identifier(og: str) -> str:
     i = 2 # identifier_1 would be the original one, i.e. #1, so it doesnt need an index.
     new_iden = iden
     while new_iden in identifier_map.values():
-        new_iden = f"{iden}_{i}"
+        new_iden = f"{iden}{i}"
         i += 1
 
     identifier_map[og] = new_iden
-    print(f"Mapped identifier {og!r} -> {iden!r}")
+    print(f"Mapped identifier {og!r} -> {new_iden!r}")
 
     return new_iden
 
