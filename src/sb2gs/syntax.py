@@ -105,6 +105,12 @@ def identifier(og: str) -> str:
 
     iden = "_".join(WHITESPACE_RE.split(iden))
     iden = INVALID_CHARS_RE.sub("", iden)
+
+    # remove ugly leading and trailing underscores, and convert to lowercase
+    # (in most cases, this converts to snake case)
+    # any concerns with naming conflicts are solved at the end of the script, by appending a number
+    iden = iden.strip('_').lower()
+
     if iden in KEYWORDS or iden in get_blocknames():
         iden += "_"
 
@@ -116,6 +122,7 @@ def identifier(og: str) -> str:
     new_iden = iden
     while new_iden in identifier_map.values():
         new_iden = f"{iden}_{i}"
+        i += 1
 
     identifier_map[og] = new_iden
     print(f"Mapped identifier {og!r} -> {iden!r}")
