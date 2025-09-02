@@ -17,7 +17,7 @@ if TYPE_CHECKING:
     from pathlib import Path
 
 
-def decompile(input: Path, output: Path, ignore_semver: bool = False, ignore_vm: bool = False) -> None:
+def decompile(input: Path, output: Path) -> None:
     assets_path = output.joinpath("assets")
     shutil.rmtree(output, ignore_errors=True)
     output.mkdir(parents=True, exist_ok=True)
@@ -28,18 +28,7 @@ def decompile(input: Path, output: Path, ignore_semver: bool = False, ignore_vm:
                 zf.extract(file, assets_path)
     stage = next(target for target in project.targets if target.isStage)
     sprites = [target for target in project.targets if not target.isStage]
-    if project.meta.semver != "3.0.0":
-        msg = f"project semver ({project.meta.semver}) is unsupported"
-        if not ignore_semver:
-            raise Error(msg)
-        else:
-            logging.warning(msg)
-    if project.meta.vm not in {"0.2.0", "11.3.0"}:
-        msg = f"project vm version ({project.meta.vm}) is unsupported"
-        if not ignore_vm:
-            raise Error(msg)
-        else:
-            logging.warning(msg)
+
     ctx = Ctx(stage)
     with output.joinpath("stage.gs").open("w") as file:
         decompile_sprite(ctx)
